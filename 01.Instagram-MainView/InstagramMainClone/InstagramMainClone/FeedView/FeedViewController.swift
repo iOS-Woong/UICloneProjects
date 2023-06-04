@@ -26,22 +26,43 @@ class FeedViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<FeedSection, Contents>
     typealias SnapShot = NSDiffableDataSourceSnapshot<FeedSection, Contents>
     
+    private var contents: [Contents]
     private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private var dataSource: DataSource?
     private var snapShot: SnapShot?
     
+    init(contents: [Contents]) {
+        self.contents = contents
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
+        configureDataSource()
         setupCollectionViewAttributes()
     }
-
+    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell, Contents> { cell, indexPath, itemIdentifier in
+            cell.configureCell(data: itemIdentifier)
+        }
+        
+        dataSource = .init(collectionView: feedCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        })
+    }
+    
     private func setupCollectionViewAttributes() {
         feedCollectionView.delegate = self
         feedCollectionView.register(FeedCollectionViewCell.self,
                                     forCellWithReuseIdentifier: FeedCollectionViewCell.reuseIdentfier)
         feedCollectionView.collectionViewLayout = createLayout()
-        
     }
     
     private func createLayout() -> UICollectionViewLayout {
@@ -78,17 +99,16 @@ class FeedViewController: UIViewController {
     }
     
     private func setupViews() {
+        feedCollectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(feedCollectionView)
         
         NSLayoutConstraint.activate([
-            feedCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            feedCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            feedCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            feedCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            feedCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            feedCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            feedCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            feedCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
-    
 }
 
 extension FeedViewController: UICollectionViewDelegate { }
