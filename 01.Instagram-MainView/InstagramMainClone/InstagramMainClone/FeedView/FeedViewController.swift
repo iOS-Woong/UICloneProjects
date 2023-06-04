@@ -23,10 +23,12 @@ class FeedViewController: UIViewController {
         }
     }
     
-    
+    typealias DataSource = UICollectionViewDiffableDataSource<FeedSection, Contents>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<FeedSection, Contents>
     
     private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-//    private let dataSource
+    private var dataSource: DataSource?
+    private var snapShot: SnapShot?
     
     
     override func viewDidLoad() {
