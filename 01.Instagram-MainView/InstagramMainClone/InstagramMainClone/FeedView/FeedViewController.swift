@@ -9,9 +9,27 @@ import UIKit
 
 class FeedViewController: UIViewController {
 
+    private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        setupCollectionViewAttributes()
     }
 
+    private func setupCollectionViewAttributes() {
+        feedCollectionView.delegate = self
+        feedCollectionView.register(FeedCollectionViewCell.self,
+                                    forCellWithReuseIdentifier: FeedCollectionViewCell.reuseIdentfier)
+        feedCollectionView.collectionViewLayout = createLayout()!
+        
+    }
+    
+    private func createLayout() -> UICollectionViewLayout? {
+        
+        return UICollectionViewLayout()
+    }
+    
+    
 }
+
+extension FeedViewController: UICollectionViewDelegate { }
