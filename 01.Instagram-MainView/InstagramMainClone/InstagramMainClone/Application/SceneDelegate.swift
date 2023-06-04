@@ -17,7 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let feedViewController = FeedViewController()
+        let feedSample = FeedSample()
+        let feedViewController = FeedViewController(contents: feedSample.contents)
         let blankVC1 = UIViewController()
         let blankVC2 = UIViewController()
         let blankVC3 = UIViewController()
