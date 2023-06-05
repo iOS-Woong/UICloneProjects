@@ -28,8 +28,8 @@ class FeedCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(data: String) {
-        sampleLabel.text = data
+    func configureCell(data: Int) {
+        sampleLabel.text = data.description
     }
     
     

@@ -23,13 +23,12 @@ class FeedViewController: UIViewController {
         }
     }
     
-    typealias DataSource = UICollectionViewDiffableDataSource<FeedSection, Contents>
-    typealias SnapShot = NSDiffableDataSourceSnapshot<FeedSection, Contents>
+    typealias DataSource = UICollectionViewDiffableDataSource<FeedSection, Int>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<FeedSection, Int>
     
     private var contents: [Contents]
     private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private var dataSource: DataSource?
-    private var snapShot: SnapShot?
     
     init(contents: [Contents]) {
         self.contents = contents
@@ -46,10 +45,12 @@ class FeedViewController: UIViewController {
         setupViews()
         configureDataSource()
         setupCollectionViewAttributes()
+        configureSnapShot()
     }
     
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell, Contents> { cell, indexPath, itemIdentifier in
+        let cellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
+            print(indexPath)
             cell.configureCell(data: itemIdentifier)
         }
         
@@ -58,43 +59,67 @@ class FeedViewController: UIViewController {
         })
     }
     
+    private func configureSnapShot() {
+        var snapShot = SnapShot()
+        snapShot.appendSections([.story, .feed, .friendRecommand])
+        snapShot.appendItems(Array(21..<31), toSection: .story)
+        snapShot.appendItems(Array(1..<11), toSection: .feed)
+        snapShot.appendItems(Array(11..<21), toSection: .friendRecommand)
+        dataSource?.apply(snapShot, animatingDifferences: false)
+        
+    }
+    
     private func setupCollectionViewAttributes() {
         feedCollectionView.delegate = self
-        feedCollectionView.register(FeedCollectionViewCell.self,
-                                    forCellWithReuseIdentifier: FeedCollectionViewCell.reuseIdentfier)
         feedCollectionView.collectionViewLayout = createLayout()
+
     }
     
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, environment -> NSCollectionLayoutSection? in
-            guard let feedSection = FeedSection(rawValue: sectionIndex) else { return nil }
-            let columnsCount = feedSection.columnsCount
+            var section: NSCollectionLayoutSection?
             
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalWidth(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-            
-            
-            var groupHeight: NSCollectionLayoutDimension
-            switch feedSection {
-            case .story:
-                groupHeight = NSCollectionLayoutDimension.fractionalHeight(0.1)
-            case .feed:
-                groupHeight = NSCollectionLayoutDimension.fractionalHeight(0.4)
-            case .friendRecommand:
-                groupHeight = NSCollectionLayoutDimension.fractionalHeight(0.3)
+            switch sectionIndex {
+            case 0:
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.2),
+                                                                    heightDimension: .fractionalHeight(1.0)))
+                item.contentInsets = .init(top: 5, leading: 5, bottom: 5, trailing: 5)
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                                 heightDimension: .absolute(100)),
+                                                               subitems: [item])
+                section = NSCollectionLayoutSection(group: group)
+                section?.orthogonalScrollingBehavior = .continuous
+                
+                return section
+            case 1:
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                    heightDimension: .fractionalWidth(1.0)))
+                item.contentInsets = .init(top: 10, leading: 5, bottom: 10, trailing: 5)
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                                 heightDimension: .absolute(500)),
+                                                               subitems: [item])
+                section = NSCollectionLayoutSection(group: group)
+                section?.orthogonalScrollingBehavior = .paging
+                
+                return section
+            case 2:
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                    heightDimension: .fractionalHeight(1.0)))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                                                                                 heightDimension: .absolute(300)),
+                                                               subitems: [item])
+                group.contentInsets = .init(top: 10, leading: 5, bottom: 10, trailing: 5)
+                
+                section = NSCollectionLayoutSection(group: group)
+                section?.orthogonalScrollingBehavior = .groupPaging
+                return section
+            default :
+                break
             }
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: groupHeight)
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columnsCount)
-            
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
             
             return section
         }
-        
         return layout
     }
     
