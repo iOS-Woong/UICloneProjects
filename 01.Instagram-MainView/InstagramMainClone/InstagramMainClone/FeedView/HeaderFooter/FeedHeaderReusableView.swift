@@ -10,10 +10,10 @@ import UIKit
 class FeedHeaderReusableView: UICollectionReusableView {
     static let reuseIdentifier = "feedHeader"
     
-    private let userProfileImage = {
+    private lazy var userProfileImageView = {
        let imageView = UIImageView()
         
-        imageView.image = UIImage(systemName: "cloud")
+        imageView.image = UIImage(named: "testImagewoongPhoto")
         
         return imageView
     }()
@@ -22,6 +22,7 @@ class FeedHeaderReusableView: UICollectionReusableView {
         let label = UILabel()
         
         label.text = "seo_hyeonung"
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         
         return label
     }()
@@ -30,6 +31,7 @@ class FeedHeaderReusableView: UICollectionReusableView {
        let imageView = UIImageView()
         
         imageView.image = UIImage(systemName: "ellipsis")
+        imageView.tintColor = .systemGray
         
         return imageView
     }()
@@ -39,25 +41,37 @@ class FeedHeaderReusableView: UICollectionReusableView {
         setupViews()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        userProfileImageView.layer.cornerRadius = userProfileImageView.frame.size.width / 2
+        userProfileImageView.clipsToBounds = true
+
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setupViews() {
-        [userProfileImage, userNameLabel, flagImageView].forEach(self.addSubview(_:))
+        let targetView = [userProfileImageView, userNameLabel, flagImageView]
+        targetView.forEach(self.addSubview(_:))
+        targetView.forEach { $0.translatesAutoresizingMaskIntoConstraints = false
+        
+        }
         
         NSLayoutConstraint.activate([
-            userProfileImage.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.1),
-            userProfileImage.heightAnchor.constraint(equalTo: userProfileImage.widthAnchor, multiplier: 1.0),
-            userProfileImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
-            userProfileImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            userProfileImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.08),
+            userProfileImageView.heightAnchor.constraint(equalTo: userProfileImageView.widthAnchor, multiplier: 1.0),
+            userProfileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            userProfileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
-            userNameLabel.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor, constant: 5),
+            userNameLabel.leadingAnchor.constraint(equalTo: userProfileImageView.trailingAnchor, constant: 5),
             userNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
-            flagImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.1),
+            flagImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.05),
             flagImageView.heightAnchor.constraint(equalTo: flagImageView.widthAnchor, multiplier: 1.0),
-            flagImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5)
+            flagImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            flagImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
         ])
     }
 }

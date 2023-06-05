@@ -56,8 +56,8 @@ class FeedViewController: UIViewController {
         
         let feedHeaderViewResistration = UICollectionView.SupplementaryRegistration<FeedHeaderReusableView>(
             elementKind: UICollectionView.elementKindSectionHeader) { headerView ,elementKind, indexPath in
-                headerView.backgroundColor = .systemBlue
-        }
+                headerView.backgroundColor = .white
+            }
         
         
         dataSource = .init(collectionView: feedCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
@@ -68,7 +68,6 @@ class FeedViewController: UIViewController {
         dataSource?.supplementaryViewProvider = { collectionView, text, indexPath in
             return collectionView.dequeueConfiguredReusableSupplementary(using: feedHeaderViewResistration, for: indexPath)
         }
-        
     }
     
     private func configureSnapShot() {
@@ -84,7 +83,7 @@ class FeedViewController: UIViewController {
     private func setupCollectionViewAttributes() {
         feedCollectionView.delegate = self
         feedCollectionView.collectionViewLayout = createLayout()
-
+        
     }
     
     private func createLayout() -> UICollectionViewLayout {
@@ -107,7 +106,7 @@ class FeedViewController: UIViewController {
             case 1:
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
                                                                     heightDimension: .fractionalWidth(1.0)))
-                item.contentInsets = .init(top: 10, leading: 5, bottom: 10, trailing: 5)
+                item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
                                                                                  heightDimension: .absolute(500)),
                                                                subitems: [item])
@@ -115,13 +114,13 @@ class FeedViewController: UIViewController {
                 section?.orthogonalScrollingBehavior = .paging
                 section?.boundarySupplementaryItems = [
                     NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                                  heightDimension: .absolute(25)),
+                                                                                  heightDimension: .absolute(35)),
                                                                 elementKind: UICollectionView.elementKindSectionHeader,
                                                                 alignment: .topLeading),
-//                    NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-//                                                                                  heightDimension: .absolute(25)),
-//                                                                elementKind: UICollectionView.elementKindSectionFooter,
-//                                                                alignment: .leading)
+                    //                    NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                    //                                                                                  heightDimension: .absolute(25)),
+                    //                                                                elementKind: UICollectionView.elementKindSectionFooter,
+                    //                                                                alignment: .leading)
                 ]
                 
                 return section
