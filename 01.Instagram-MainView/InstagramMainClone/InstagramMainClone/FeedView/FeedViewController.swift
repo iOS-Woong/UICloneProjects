@@ -54,9 +54,21 @@ class FeedViewController: UIViewController {
             cell.configureCell(data: itemIdentifier)
         }
         
+        let feedHeaderViewResistration = UICollectionView.SupplementaryRegistration<FeedHeaderReusableView>(
+            elementKind: UICollectionView.elementKindSectionHeader) { headerView ,elementKind, indexPath in
+                headerView.backgroundColor = .systemBlue
+        }
+        
+        
         dataSource = .init(collectionView: feedCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         })
+        
+        
+        dataSource?.supplementaryViewProvider = { collectionView, text, indexPath in
+            return collectionView.dequeueConfiguredReusableSupplementary(using: feedHeaderViewResistration, for: indexPath)
+        }
+        
     }
     
     private func configureSnapShot() {
@@ -106,10 +118,10 @@ class FeedViewController: UIViewController {
                                                                                   heightDimension: .absolute(25)),
                                                                 elementKind: UICollectionView.elementKindSectionHeader,
                                                                 alignment: .topLeading),
-                    NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                                  heightDimension: .absolute(25)),
-                                                                elementKind: UICollectionView.elementKindSectionFooter,
-                                                                alignment: .leading)
+//                    NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+//                                                                                  heightDimension: .absolute(25)),
+//                                                                elementKind: UICollectionView.elementKindSectionFooter,
+//                                                                alignment: .leading)
                 ]
                 
                 return section
