@@ -101,6 +101,16 @@ class FeedViewController: UIViewController {
                                                                subitems: [item])
                 section = NSCollectionLayoutSection(group: group)
                 section?.orthogonalScrollingBehavior = .paging
+                section?.boundarySupplementaryItems = [
+                    NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                                  heightDimension: .absolute(25)),
+                                                                elementKind: UICollectionView.elementKindSectionHeader,
+                                                                alignment: .topLeading),
+                    NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                                  heightDimension: .absolute(25)),
+                                                                elementKind: UICollectionView.elementKindSectionFooter,
+                                                                alignment: .leading)
+                ]
                 
                 return section
             case 2:
