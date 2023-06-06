@@ -59,6 +59,10 @@ class FeedViewController: UIViewController {
                 headerView.backgroundColor = .white
             }
         
+        let feedFooterViewResistration = UICollectionView.SupplementaryRegistration<FeedFooterReusableView>(
+            elementKind: UICollectionView.elementKindSectionFooter) { supplementaryView, elementKind, indexPath in
+                
+            }
         
         dataSource = .init(collectionView: feedCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
@@ -67,6 +71,20 @@ class FeedViewController: UIViewController {
         
         dataSource?.supplementaryViewProvider = { collectionView, text, indexPath in
             return collectionView.dequeueConfiguredReusableSupplementary(using: feedHeaderViewResistration, for: indexPath)
+        }
+        
+        dataSource?.supplementaryViewProvider = { collectionView, elementKind, indexPath in
+            var collectionReusableView: UICollectionReusableView?
+            
+            switch elementKind {
+            case UICollectionView.elementKindSectionHeader:
+                collectionReusableView = collectionView.dequeueConfiguredReusableSupplementary(using: feedHeaderViewResistration, for: indexPath)
+            case UICollectionView.elementKindSectionFooter:
+                collectionReusableView = collectionView.dequeueConfiguredReusableSupplementary(using: feedFooterViewResistration, for: indexPath)
+            default :
+                break
+            }
+            return collectionReusableView
         }
     }
     
@@ -117,10 +135,10 @@ class FeedViewController: UIViewController {
                                                                                   heightDimension: .absolute(35)),
                                                                 elementKind: UICollectionView.elementKindSectionHeader,
                                                                 alignment: .topLeading),
-                    //                    NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                    //                                                                                  heightDimension: .absolute(25)),
-                    //                                                                elementKind: UICollectionView.elementKindSectionFooter,
-                    //                                                                alignment: .leading)
+                    NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                                  heightDimension: .absolute(35)),
+                                                                elementKind: UICollectionView.elementKindSectionFooter,
+                                                                alignment: .leading)
                 ]
                 
                 return section
