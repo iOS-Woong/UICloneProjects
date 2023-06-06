@@ -39,13 +39,13 @@ class FeedViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         configureDataSource()
         setupCollectionViewAttributes()
         configureSnapShot()
+        setupNavigation()
     }
     
     private func configureDataSource() {
@@ -98,10 +98,22 @@ class FeedViewController: UIViewController {
         
     }
     
+    private func setupNavigation() {
+        let heartBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "paperplane"),
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: nil)
+        let paperplaneBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"),
+                                                      style: .plain,
+                                                      target: self,
+                                                      action: nil)
+        navigationController?.navigationBar.tintColor = .black
+        navigationItem.rightBarButtonItems = [heartBarButtonItem, paperplaneBarButtonItem]
+    }
+    
     private func setupCollectionViewAttributes() {
         feedCollectionView.delegate = self
         feedCollectionView.collectionViewLayout = createLayout()
-        
     }
     
     private func createLayout() -> UICollectionViewLayout {
@@ -164,6 +176,7 @@ class FeedViewController: UIViewController {
     }
     
     private func setupViews() {
+        view.backgroundColor = .white
         feedCollectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(feedCollectionView)
         

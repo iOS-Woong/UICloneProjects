@@ -19,15 +19,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let feedSample = FeedSample()
         let feedViewController = FeedViewController(contents: feedSample.contents)
+        let navigationFeedVC = UINavigationController(rootViewController: feedViewController)
         let blankVC1 = UIViewController()
         let blankVC2 = UIViewController()
         let blankVC3 = UIViewController()
         let blankVC4 = UIViewController()
         let tabbarController = UITabBarController()
         
-        setupTabbarIcon(viewControllers: [feedViewController,blankVC1, blankVC2, blankVC3, blankVC4])
+        setupTabbarIcon(viewControllers: [feedViewController, blankVC1, blankVC2, blankVC3, blankVC4])
+        navigationFeedVC.navigationBar.backgroundColor = .white
         tabbarController.tabBar.backgroundColor = .white
-        tabbarController.setViewControllers([feedViewController, blankVC1, blankVC2, blankVC3, blankVC4], animated: true)
+        tabbarController.setViewControllers([navigationFeedVC, blankVC1, blankVC2, blankVC3, blankVC4], animated: false)
         window.rootViewController = tabbarController
         window.makeKeyAndVisible()
         self.window = window
