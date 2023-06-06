@@ -49,9 +49,12 @@ class FeedViewController: UIViewController {
     }
     
     private func configureDataSource() {
-//        let storyCollectionCellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell> { cell, indexPath, itemIdentifier in
-//            <#code#>
-//        }
+        let storyCollectionCellRegistration = UICollectionView.CellRegistration<StoryCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
+            if indexPath == IndexPath(row: 1, section: 0) {
+                // 첫번째셀 스토리 추가 string 설정
+            }
+                
+        }
         
         let feedCollectionCellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
             cell.configureCell(data: itemIdentifier)
@@ -68,13 +71,22 @@ class FeedViewController: UIViewController {
         
         dataSource = .init(collectionView: feedCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             // 섹션 분기처리가능함?
-            return collectionView.dequeueConfiguredReusableCell(using: feedCollectionCellRegistration, for: indexPath, item: itemIdentifier)
+            let section = indexPath.section
+            
+            var cell = UICollectionViewCell()
+            switch section {
+            case 0:
+                cell = collectionView.dequeueConfiguredReusableCell(using: storyCollectionCellRegistration, for: indexPath, item: itemIdentifier)
+            case 1:
+                cell = collectionView.dequeueConfiguredReusableCell(using: feedCollectionCellRegistration, for: indexPath, item: itemIdentifier)
+            case 2:
+                cell = collectionView.dequeueConfiguredReusableCell(using: feedCollectionCellRegistration, for: indexPath, item: itemIdentifier)
+            default:
+                break
+            }
+            return cell
         })
         
-        
-        dataSource?.supplementaryViewProvider = { collectionView, text, indexPath in
-            return collectionView.dequeueConfiguredReusableSupplementary(using: feedHeaderViewResistration, for: indexPath)
-        }
         
         dataSource?.supplementaryViewProvider = { collectionView, elementKind, indexPath in
             var collectionReusableView: UICollectionReusableView?
@@ -130,7 +142,7 @@ class FeedViewController: UIViewController {
                 item.contentInsets = .init(top: 5, leading: 5, bottom: 5, trailing: 5)
                 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                                 heightDimension: .absolute(100)),
+                                                                                 heightDimension: .absolute(110)),
                                                                subitems: [item])
                 section = NSCollectionLayoutSection(group: group)
                 section?.orthogonalScrollingBehavior = .continuous
