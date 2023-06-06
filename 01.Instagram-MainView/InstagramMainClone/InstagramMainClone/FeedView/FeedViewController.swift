@@ -123,11 +123,12 @@ class FeedViewController: UIViewController {
                 return section
             case 1:
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                    heightDimension: .fractionalWidth(1.0)))
-                item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
+                                                                    heightDimension: .fractionalHeight(1.0)))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
                                                                                  heightDimension: .absolute(500)),
                                                                subitems: [item])
+                group.contentInsets.top = 5
+                group.contentInsets.bottom = 5
                 section = NSCollectionLayoutSection(group: group)
                 section?.orthogonalScrollingBehavior = .paging
                 section?.boundarySupplementaryItems = [
@@ -136,15 +137,15 @@ class FeedViewController: UIViewController {
                                                                 elementKind: UICollectionView.elementKindSectionHeader,
                                                                 alignment: .topLeading),
                     NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                                  heightDimension: .absolute(35)),
+                                                                                  heightDimension: .fractionalHeight(0.25)),
                                                                 elementKind: UICollectionView.elementKindSectionFooter,
-                                                                alignment: .leading)
+                                                                alignment: .bottom)
                 ]
                 
                 return section
             case 2:
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                    heightDimension: .fractionalHeight(1.0)))
+                                                                    heightDimension: .fractionalHeight(0.1)))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
                                                                                  heightDimension: .absolute(300)),
                                                                subitems: [item])
