@@ -131,16 +131,16 @@ class FeedViewController: UIViewController {
                 group.contentInsets.bottom = 5
                 section = NSCollectionLayoutSection(group: group)
                 section?.orthogonalScrollingBehavior = .paging
-                section?.boundarySupplementaryItems = [
-                    NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                                  heightDimension: .absolute(35)),
-                                                                elementKind: UICollectionView.elementKindSectionHeader,
-                                                                alignment: .topLeading),
-                    NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                                  heightDimension: .fractionalHeight(0.25)),
-                                                                elementKind: UICollectionView.elementKindSectionFooter,
-                                                                alignment: .bottom)
-                ]
+                
+                let headerView = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                              heightDimension: .absolute(35)),
+                                                            elementKind: UICollectionView.elementKindSectionHeader,
+                                                            alignment: .topLeading)
+                let footerView = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                                               heightDimension: .fractionalHeight(0.25)),
+                                                                             elementKind: UICollectionView.elementKindSectionFooter,
+                                                                             alignment: .bottom)
+                section?.boundarySupplementaryItems = [headerView, footerView]
                 
                 return section
             case 2:

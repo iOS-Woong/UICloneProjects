@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D2C8CCAD2A2DF77A0082CEA8 /* FeedHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C8CCAC2A2DF77A0082CEA8 /* FeedHeaderReusableView.swift */; };
 		D2C8CCAF2A2DF7920082CEA8 /* FeedFooterReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C8CCAE2A2DF7920082CEA8 /* FeedFooterReusableView.swift */; };
+		D2C8CCD22A2F4DE80082CEA8 /* UserProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C8CCD12A2F4DE80082CEA8 /* UserProfileImageView.swift */; };
 		D2CFD7B52A2CDFF400AFAFEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2CFD7B42A2CDFF400AFAFEE /* AppDelegate.swift */; };
 		D2CFD7B72A2CDFF400AFAFEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2CFD7B62A2CDFF400AFAFEE /* SceneDelegate.swift */; };
 		D2CFD7BE2A2CDFF600AFAFEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2CFD7BD2A2CDFF600AFAFEE /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		D2C8CCAC2A2DF77A0082CEA8 /* FeedHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderReusableView.swift; sourceTree = "<group>"; };
 		D2C8CCAE2A2DF7920082CEA8 /* FeedFooterReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFooterReusableView.swift; sourceTree = "<group>"; };
+		D2C8CCD12A2F4DE80082CEA8 /* UserProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileImageView.swift; sourceTree = "<group>"; };
 		D2CFD7B12A2CDFF400AFAFEE /* InstagramMainClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramMainClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2CFD7B42A2CDFF400AFAFEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2CFD7B62A2CDFF400AFAFEE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -46,10 +48,19 @@
 		D2C8CCAB2A2DF6FE0082CEA8 /* HeaderFooter */ = {
 			isa = PBXGroup;
 			children = (
+				D2C8CCD02A2F4DCB0082CEA8 /* CustomView */,
 				D2C8CCAC2A2DF77A0082CEA8 /* FeedHeaderReusableView.swift */,
 				D2C8CCAE2A2DF7920082CEA8 /* FeedFooterReusableView.swift */,
 			);
 			path = HeaderFooter;
+			sourceTree = "<group>";
+		};
+		D2C8CCD02A2F4DCB0082CEA8 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				D2C8CCD12A2F4DE80082CEA8 /* UserProfileImageView.swift */,
+			);
+			path = CustomView;
 			sourceTree = "<group>";
 		};
 		D2CFD7A82A2CDFF400AFAFEE = {
@@ -192,6 +203,7 @@
 				D2E86FD12A2CEE9100C368EB /* FeedCollectionViewCell.swift in Sources */,
 				D2C8CCAD2A2DF77A0082CEA8 /* FeedHeaderReusableView.swift in Sources */,
 				D2E86FD42A2D009A00C368EB /* FeedSample.swift in Sources */,
+				D2C8CCD22A2F4DE80082CEA8 /* UserProfileImageView.swift in Sources */,
 				D2CFD7B72A2CDFF400AFAFEE /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

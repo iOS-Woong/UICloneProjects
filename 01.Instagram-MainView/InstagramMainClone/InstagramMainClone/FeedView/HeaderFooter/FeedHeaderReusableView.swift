@@ -11,7 +11,7 @@ class FeedHeaderReusableView: UICollectionReusableView {
     static let reuseIdentifier = "feedHeader"
     
     private lazy var userProfileImageView = {
-       let imageView = UIImageView()
+       let imageView = UserProfileImageView()
         
         imageView.image = UIImage(named: "testImagewoongPhoto")
         
@@ -22,7 +22,7 @@ class FeedHeaderReusableView: UICollectionReusableView {
         let label = UILabel()
         
         label.text = "seo_hyeonung"
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 14.5)
         
         return label
     }()
@@ -43,8 +43,8 @@ class FeedHeaderReusableView: UICollectionReusableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        userProfileImageView.layer.cornerRadius = userProfileImageView.frame.size.width / 2
-        userProfileImageView.clipsToBounds = true
+//        userProfileImageView.layer.cornerRadius = userProfileImageView.frame.size.width / 2
+//        userProfileImageView.clipsToBounds = true
 
     }
     
@@ -65,7 +65,7 @@ class FeedHeaderReusableView: UICollectionReusableView {
             userProfileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             userProfileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
-            userNameLabel.leadingAnchor.constraint(equalTo: userProfileImageView.trailingAnchor, constant: 5),
+            userNameLabel.leadingAnchor.constraint(equalTo: userProfileImageView.trailingAnchor, constant: 10),
             userNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
             flagImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.05),

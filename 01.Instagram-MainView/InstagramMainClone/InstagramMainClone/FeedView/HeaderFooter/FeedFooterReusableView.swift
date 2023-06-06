@@ -113,10 +113,9 @@ class FeedFooterReusableView: UICollectionReusableView {
     }()
     // MARK: 03. 댓글하단부
     private let commentUserProfileImageView = {
-        let imageView = UIImageView()
+        let imageView = UserProfileImageView()
         
         imageView.image = UIImage(named: "testImagewoongPhoto")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
@@ -189,12 +188,6 @@ class FeedFooterReusableView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        commentUserProfileImageView.layer.cornerRadius = commentUserProfileImageView.frame.size.width / 2
-        commentUserProfileImageView.clipsToBounds = true
     }
     
     private func setupViews() { // 0.08
