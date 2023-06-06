@@ -49,11 +49,14 @@ class FeedViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
-            print(indexPath)
+//        let storyCollectionCellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell> { cell, indexPath, itemIdentifier in
+//            <#code#>
+//        }
+        
+        let feedCollectionCellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
             cell.configureCell(data: itemIdentifier)
         }
-        
+                
         let feedHeaderViewResistration = UICollectionView.SupplementaryRegistration<FeedHeaderReusableView>(
             elementKind: UICollectionView.elementKindSectionHeader) { headerView ,elementKind, indexPath in
                 headerView.backgroundColor = .white
@@ -61,11 +64,11 @@ class FeedViewController: UIViewController {
         
         let feedFooterViewResistration = UICollectionView.SupplementaryRegistration<FeedFooterReusableView>(
             elementKind: UICollectionView.elementKindSectionFooter) { supplementaryView, elementKind, indexPath in
-                
             }
         
         dataSource = .init(collectionView: feedCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+            // 섹션 분기처리가능함?
+            return collectionView.dequeueConfiguredReusableCell(using: feedCollectionCellRegistration, for: indexPath, item: itemIdentifier)
         })
         
         
