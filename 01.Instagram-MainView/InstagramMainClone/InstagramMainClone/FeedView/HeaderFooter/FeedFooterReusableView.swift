@@ -137,6 +137,19 @@ class FeedFooterReusableView: UICollectionReusableView {
         
         stackView.axis = .horizontal
         stackView.alignment = .center
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 10
+        
+        return stackView
+    }()
+    
+    private let recommendButtonHorizontalStackView = {
+        let stackView = UIStackView()
+        
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 10
         
         return stackView
     }()
@@ -157,6 +170,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fill
+        stackView.spacing = 10
         
         return stackView
     }()
@@ -176,7 +190,9 @@ class FeedFooterReusableView: UICollectionReusableView {
         let stackView = UIStackView()
         
         stackView.axis = .horizontal
-        stackView.alignment = .leading
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 10
         
         return stackView
     }()
@@ -190,11 +206,12 @@ class FeedFooterReusableView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupViews() { // 0.08
+    private func setupViews() { 
         [descriptionUserNameLabel, descriptionLabel].forEach(descriptionHorizontalStackView.addArrangedSubview(_:))
         [commentUserNameLabel, commentDescriptionLabel].forEach(commentHorizontalStackView.addArrangedSubview(_:))
+        [loveFlagImageView, messageFlagImageView, directMessageFlagImageView].forEach(recommendButtonHorizontalStackView.addArrangedSubview(_:))
         
-        let bottomOfPictureContents = [loveFlagImageView, messageFlagImageView, directMessageFlagImageView, pageControl, loadFlagImageView]
+        let bottomOfPictureContents = [recommendButtonHorizontalStackView , pageControl, loadFlagImageView]
         let topOfCommentContents = [loveLabel, descriptionHorizontalStackView, commentCountLabel, commentHorizontalStackView]
         let bottomOfCommentContents = [commentUserProfileImageView, addCommentLabel]
         
@@ -207,31 +224,23 @@ class FeedFooterReusableView: UICollectionReusableView {
         
         // 개별
         NSLayoutConstraint.activate([
-            loveFlagImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.06),
-            loveFlagImageView.heightAnchor.constraint(equalTo: loveFlagImageView.widthAnchor, multiplier: 1.0),
-            messageFlagImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.06),
-            messageFlagImageView.heightAnchor.constraint(equalTo: messageFlagImageView.widthAnchor, multiplier: 1.0),
-            directMessageFlagImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.06),
-            directMessageFlagImageView.heightAnchor.constraint(equalTo: directMessageFlagImageView.widthAnchor, multiplier: 1.0),
-            pageControl.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.15),
-            pageControl.heightAnchor.constraint(equalTo: pageControl.widthAnchor, multiplier: 1),
-            loadFlagImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.06),
+            recommendButtonHorizontalStackView.leadingAnchor.constraint(equalTo: bottomOfPictureStackView.leadingAnchor, constant: 10),
+            recommendButtonHorizontalStackView.trailingAnchor.constraint(equalTo: pageControl.leadingAnchor, constant: -20),
+            recommendButtonHorizontalStackView.heightAnchor.constraint(equalTo: bottomOfPictureStackView.heightAnchor, multiplier: 0.6),
+
+            loveFlagImageView.widthAnchor.constraint(equalTo: recommendButtonHorizontalStackView.heightAnchor),
+            messageFlagImageView.widthAnchor.constraint(equalTo: recommendButtonHorizontalStackView.heightAnchor),
+            directMessageFlagImageView.widthAnchor.constraint(equalTo: recommendButtonHorizontalStackView.heightAnchor),
+            
+            loadFlagImageView.widthAnchor.constraint(equalTo: recommendButtonHorizontalStackView.heightAnchor),
             loadFlagImageView.heightAnchor.constraint(equalTo: loadFlagImageView.widthAnchor, multiplier: 1.0),
             
-            loveFlagImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            messageFlagImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),
-            directMessageFlagImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 90),
+            loadFlagImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            pageControl.centerXAnchor.constraint(equalTo: bottomOfPictureStackView.centerXAnchor),
+            pageControl.widthAnchor.constraint(equalTo: bottomOfPictureStackView.widthAnchor, multiplier: 0.2),
+            pageControl.heightAnchor.constraint(equalTo: bottomOfPictureStackView.heightAnchor, multiplier: 0.2),
             
-            pageControl.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            
-            loadFlagImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
-            
-            commentUserProfileImageView.widthAnchor.constraint(equalTo: topOfCommentVerticalStackView.widthAnchor, multiplier: 0.08),
-            commentUserProfileImageView.heightAnchor.constraint(equalTo: commentUserProfileImageView.widthAnchor, multiplier: 1),
-            commentUserProfileImageView.leadingAnchor.constraint(equalTo: topOfCommentVerticalStackView.leadingAnchor),
-            
-            addCommentLabel.widthAnchor.constraint(equalTo: topOfCommentVerticalStackView.widthAnchor, multiplier: 0.9),
-            addCommentLabel.leadingAnchor.constraint(equalTo: commentUserProfileImageView.trailingAnchor, constant: 2)
+            commentUserProfileImageView.widthAnchor.constraint(equalTo: bottomOfCommentHorizontalStackView.heightAnchor, multiplier: 1)
             
         ])
         
@@ -244,7 +253,8 @@ class FeedFooterReusableView: UICollectionReusableView {
         // StackView조절
         NSLayoutConstraint.activate([
             bottomOfPictureStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            bottomOfPictureStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0),
+            bottomOfPictureStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            bottomOfPictureStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             bottomOfPictureStackView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.25),
             
             topOfCommentVerticalStackView.topAnchor.constraint(equalTo: bottomOfPictureStackView.bottomAnchor, constant: 5),

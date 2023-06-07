@@ -10,17 +10,6 @@ import UIKit
 class FeedViewController: UIViewController {
     enum FeedSection: Int, CaseIterable {
         case story, feed, friendRecommand
-        
-        var columnsCount: Int {
-            switch self {
-            case .story:
-                return 5
-            case .feed:
-                return 1
-            case .friendRecommand:
-                return 2
-            }
-        }
     }
     
     typealias DataSource = UICollectionViewDiffableDataSource<FeedSection, Int>
@@ -66,11 +55,10 @@ class FeedViewController: UIViewController {
             }
         
         let feedFooterViewResistration = UICollectionView.SupplementaryRegistration<FeedFooterReusableView>(
-            elementKind: UICollectionView.elementKindSectionFooter) { supplementaryView, elementKind, indexPath in
+            elementKind: UICollectionView.elementKindSectionFooter) { footerView, elementKind, indexPath in
             }
         
         dataSource = .init(collectionView: feedCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            // 섹션 분기처리가능함?
             let section = indexPath.section
             
             var cell = UICollectionViewCell()
