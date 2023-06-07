@@ -48,6 +48,10 @@ class FeedViewController: UIViewController {
         let feedCollectionCellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
             cell.configureCell(data: itemIdentifier)
         }
+        
+        let freindRecommendCollectionCellResistration = UICollectionView.CellRegistration<FriendCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
+            
+        }
                 
         let feedHeaderViewResistration = UICollectionView.SupplementaryRegistration<FeedHeaderReusableView>(
             elementKind: UICollectionView.elementKindSectionHeader) { headerView ,elementKind, indexPath in
@@ -68,7 +72,7 @@ class FeedViewController: UIViewController {
             case 1:
                 cell = collectionView.dequeueConfiguredReusableCell(using: feedCollectionCellRegistration, for: indexPath, item: itemIdentifier)
             case 2:
-                cell = collectionView.dequeueConfiguredReusableCell(using: feedCollectionCellRegistration, for: indexPath, item: itemIdentifier)
+                cell = collectionView.dequeueConfiguredReusableCell(using: freindRecommendCollectionCellResistration, for: indexPath, item: itemIdentifier)
             default:
                 break
             }
@@ -160,9 +164,9 @@ class FeedViewController: UIViewController {
                 return section
             case 2:
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                    heightDimension: .fractionalHeight(0.1)))
+                                                                    heightDimension: .fractionalHeight(0.8)))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
-                                                                                 heightDimension: .absolute(300)),
+                                                                                 heightDimension: .absolute(430)),
                                                                subitems: [item])
                 group.contentInsets = .init(top: 10, leading: 5, bottom: 10, trailing: 5)
                 
