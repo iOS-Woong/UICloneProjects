@@ -18,7 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         let feedSample = FeedSample()
-        let feedViewController = FeedViewController(contents: feedSample.contents)
+        let feedViewController = FeedViewController(stories: feedSample.stories,
+                                                    feeds: feedSample.feeds,
+                                                    recommends: feedSample.recommends)
         let navigationFeedVC = UINavigationController(rootViewController: feedViewController)
         let blankVC1 = UIViewController()
         let blankVC2 = UIViewController()

@@ -8,15 +8,21 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-    typealias DataSource = UICollectionViewDiffableDataSource<Int, Contents>
-    typealias SnapShot = NSDiffableDataSourceSnapshot<Int, Contents>
+    typealias DataSource = UICollectionViewDiffableDataSource<UUID, AnyHashable>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<UUID, AnyHashable>
     
-    private var contents: [Contents]
-    private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    private var stories: [Story]
+    private var feeds: [Feed]
+    private var recommends: [Friend]
+    
+    private let feedCollectionView = UICollectionView(frame: .zero,
+                                                      collectionViewLayout: UICollectionViewLayout())
     private var dataSource: DataSource?
     
-    init(contents: [Contents]) {
-        self.contents = contents
+    init(stories: [Story], feeds: [Feed], recommends: [Friend]) {
+        self.stories = stories
+        self.feeds = feeds
+        self.recommends = recommends
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,18 +40,21 @@ class FeedViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        let storyCollectionCellRegistration = UICollectionView.CellRegistration<StoryCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
+        let storyCollectionCellRegistration = UICollectionView.CellRegistration<StoryCollectionViewCell, AnyHashable> { cell, indexPath, itemIdentifier in
             if indexPath == IndexPath(row: 1, section: 0) {
                 // 첫번째셀 스토리 추가 string 설정
             }
+            
+//            cell.configure(data: itemIdentifier)
                 
         }
         
-        let feedCollectionCellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
-            cell.configureCell(data: itemIdentifier)
+        let feedCollectionCellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell, AnyHashable> { cell, indexPath, itemIdentifier in
+            
+//            cell.configureCell(data: itemIdentifier)
         }
         
-        let freindRecommendCollectionCellResistration = UICollectionView.CellRegistration<FriendCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
+        let freindRecommendCollectionCellResistration = UICollectionView.CellRegistration<FriendCollectionViewCell, AnyHashable> { cell, indexPath, itemIdentifier in
             
         }
                 
@@ -65,13 +74,15 @@ class FeedViewController: UIViewController {
             switch section {
             case 0:
                 cell = collectionView.dequeueConfiguredReusableCell(using: storyCollectionCellRegistration, for: indexPath, item: itemIdentifier)
-            case 1:
-                cell = collectionView.dequeueConfiguredReusableCell(using: feedCollectionCellRegistration, for: indexPath, item: itemIdentifier)
+                break
             case 2:
                 cell = collectionView.dequeueConfiguredReusableCell(using: freindRecommendCollectionCellResistration, for: indexPath, item: itemIdentifier)
             default:
-                break
+                cell = collectionView.dequeueConfiguredReusableCell(using: feedCollectionCellRegistration, for: indexPath, item: itemIdentifier)
             }
+            
+            
+            
             return cell
         })
         
@@ -93,15 +104,13 @@ class FeedViewController: UIViewController {
     
     private func configureSnapShot() {
         var snapShot = SnapShot()
-        snapShot.appendSections([.story, .feed, .friendRecommand])
-        snapShot.appendItems(Array(21..<31), toSection: .story)
-        snapShot.appendItems(Array(1..<11), toSection: .feed)
-        snapShot.appendItems(Array(11..<21), toSection: .friendRecommand)
-        dataSource?.apply(snapShot, animatingDifferences: false)
+        let firstSectionUUID = UUID()
+        let secondSection = UUID()
+        
+        snapShot.appendSections([firstSectionUUID])
+//        snapShot.appendItems(contents)
 
-        
-        snapShot.appendSections([1,2,3,4,5,6,7])
-        
+        dataSource?.apply(snapShot, animatingDifferences: false)
     }
     
     private func setupNavigation() {
@@ -139,7 +148,18 @@ class FeedViewController: UIViewController {
                 section?.orthogonalScrollingBehavior = .continuous
                 
                 return section
-            case 1:
+            case 2:
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                                                    heightDimension: .fractionalHeight(0.8)))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                                                                                 heightDimension: .absolute(430)),
+                                                               subitems: [item])
+                group.contentInsets = .init(top: 10, leading: 5, bottom: 10, trailing: 5)
+                
+                section = NSCollectionLayoutSection(group: group)
+                section?.orthogonalScrollingBehavior = .groupPaging
+                return section
+            default :
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
                                                                     heightDimension: .fractionalHeight(1.0)))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
@@ -161,22 +181,7 @@ class FeedViewController: UIViewController {
                 section?.boundarySupplementaryItems = [headerView, footerView]
                 
                 return section
-            case 2:
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                    heightDimension: .fractionalHeight(0.8)))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
-                                                                                 heightDimension: .absolute(430)),
-                                                               subitems: [item])
-                group.contentInsets = .init(top: 10, leading: 5, bottom: 10, trailing: 5)
-                
-                section = NSCollectionLayoutSection(group: group)
-                section?.orthogonalScrollingBehavior = .groupPaging
-                return section
-            default :
-                break
             }
-            
-            return section
         }
         return layout
     }

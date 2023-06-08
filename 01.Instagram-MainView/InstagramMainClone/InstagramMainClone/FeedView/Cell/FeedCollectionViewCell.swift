@@ -10,13 +10,13 @@ import UIKit
 class FeedCollectionViewCell: UICollectionViewCell {
     static let reuseIdentfier = "feedCell"
     
-    private let sampleLabel = {
-       let label = UILabel()
+    private let feedImageView = {
+       let imageView = UIImageView()
         
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        return label
+        return imageView
     }()
     
     override init(frame: CGRect) {
@@ -28,18 +28,19 @@ class FeedCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(data: Int) {
-        sampleLabel.text = data.description
-    }
+//    func configureCell(data: AnyHashable) {
+//        feedImageView.image = data.userProfile
+//    }
     
     
     private func setupViews() {
-        contentView.backgroundColor = .systemBlue
-        contentView.addSubview(sampleLabel)
+        contentView.addSubview(feedImageView)
         
         NSLayoutConstraint.activate([
-            sampleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            sampleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            feedImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            feedImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
+            feedImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            feedImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 }

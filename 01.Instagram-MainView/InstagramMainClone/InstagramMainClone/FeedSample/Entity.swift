@@ -7,19 +7,28 @@
 
 import UIKit.UIImage
 
-struct Contents: Hashable {
-    let userName: String
-    let userProfile: UIImage?
-    let contents: [Feed]?
+struct Story: Hashable { // 0 section
+    let user: User
 }
 
-struct Feed: Hashable {
+struct Feed: Hashable { // 1 section
+    let user: User
     let image: [UIImage?]
-    let description: String?
-    let comments: [Comment]?
+    let description: String
+    let comments: [Comment]
 }
 
 struct Comment: Hashable {
-    let userName: String
+    let user: User
     let comment: String
+}
+
+struct Friend: Hashable { // 2 section
+    let user: User
+    let state: String
+}
+
+struct User: Hashable {
+    let profileImage: UIImage?
+    let name: String
 }
