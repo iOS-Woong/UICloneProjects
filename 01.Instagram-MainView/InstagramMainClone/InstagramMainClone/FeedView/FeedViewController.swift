@@ -8,12 +8,8 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-    enum FeedSection: Int, CaseIterable {
-        case story, feed, friendRecommand
-    }
-    
-    typealias DataSource = UICollectionViewDiffableDataSource<FeedSection, Int>
-    typealias SnapShot = NSDiffableDataSourceSnapshot<FeedSection, Int>
+    typealias DataSource = UICollectionViewDiffableDataSource<Int, Contents>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<Int, Contents>
     
     private var contents: [Contents]
     private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
@@ -102,6 +98,9 @@ class FeedViewController: UIViewController {
         snapShot.appendItems(Array(1..<11), toSection: .feed)
         snapShot.appendItems(Array(11..<21), toSection: .friendRecommand)
         dataSource?.apply(snapShot, animatingDifferences: false)
+
+        
+        snapShot.appendSections([1,2,3,4,5,6,7])
         
     }
     
