@@ -41,15 +41,13 @@ class FeedHeaderReusableView: UICollectionReusableView {
         setupViews()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-//        userProfileImageView.layer.cornerRadius = userProfileImageView.frame.size.width / 2
-//        userProfileImageView.clipsToBounds = true
-
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(data: User) {
+        userProfileImageView.image = data.profileImage
+        userNameLabel.text = data.name
     }
     
     private func setupViews() {

@@ -64,9 +64,9 @@ class FeedViewController: UIViewController {
                 } else {
                     index = indexPath.section - 2
                 }
-                let user = self?.feeds[index].user
-                headerView.userProfileImageView.image = user?.profileImage
-                headerView.userNameLabel.text = user?.name
+                guard let user = self?.feeds[index].user else { return }
+                
+                headerView.configure(data: user)
             }
         
         let feedFooterViewResistration = UICollectionView.SupplementaryRegistration<FeedFooterReusableView>(
