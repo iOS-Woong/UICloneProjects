@@ -14,6 +14,7 @@ class FeedViewController: UIViewController {
     private var stories: [Story]
     private var feeds: [Feed]
     private var recommends: [Friend]
+    private var currentFeedCount = 1
     
     private let feedCollectionView = UICollectionView(frame: .zero,
                                                       collectionViewLayout: UICollectionViewLayout())
@@ -33,6 +34,7 @@ class FeedViewController: UIViewController {
     }()
     
     private var dataSource: DataSource?
+    private var snapshot: SnapShot?
     
     init(stories: [Story], feeds: [Feed], recommends: [Friend]) {
         self.stories = stories
@@ -70,7 +72,7 @@ class FeedViewController: UIViewController {
             guard let item = itemIdentifier as? Friend else { return }
             cell.configure(data: item)
         }
-                
+        
         let feedHeaderViewResistration = UICollectionView.SupplementaryRegistration<FeedHeaderReusableView>(
             elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView ,elementKind, indexPath in
                 var index: Int
@@ -79,7 +81,12 @@ class FeedViewController: UIViewController {
                 } else {
                     index = indexPath.section - 2
                 }
-                guard let user = self?.feeds[index].user else { return }
+                if index > (self?.feeds.endIndex)! - 1 {
+                    return
+                }
+                
+                guard let feed = self?.feeds[index] else { return }
+                let user = feed.user
                 
                 headerView.configure(data: user)
             }
@@ -92,6 +99,11 @@ class FeedViewController: UIViewController {
                 } else {
                     index = indexPath.section - 2
                 }
+                
+                if index > (self?.feeds.endIndex)! - 1 {
+                    return
+                }
+                
                 guard let feed = self?.feeds[index] else { return }
                 
                 footerView.configure(data: feed)
@@ -129,16 +141,16 @@ class FeedViewController: UIViewController {
     }
     
     private func configureSnapShot() {
-        var snapShot = SnapShot()
+        snapshot = .init()
         let firstSection = UUID()
         let secondSection = UUID()
         let friendSection = UUID()
         
-        snapShot.appendSections([firstSection, secondSection, friendSection])
-        snapShot.appendItems(stories, toSection: firstSection)
-        snapShot.appendItems(feeds[0].image, toSection: secondSection)
-        snapShot.appendItems(recommends, toSection: friendSection)
-        dataSource?.apply(snapShot, animatingDifferences: false)
+        snapshot?.appendSections([firstSection, secondSection, friendSection])
+        snapshot?.appendItems(stories, toSection: firstSection)
+        snapshot?.appendItems(feeds[0].image.image, toSection: secondSection)
+        snapshot?.appendItems(recommends, toSection: friendSection)
+        dataSource?.apply(snapshot!, animatingDifferences: false)
     }
     
     private func setupNavigation() {
@@ -199,9 +211,9 @@ class FeedViewController: UIViewController {
                 section?.orthogonalScrollingBehavior = .paging
                 
                 let headerView = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                              heightDimension: .absolute(35)),
-                                                            elementKind: UICollectionView.elementKindSectionHeader,
-                                                            alignment: .topLeading)
+                                                                                               heightDimension: .absolute(35)),
+                                                                             elementKind: UICollectionView.elementKindSectionHeader,
+                                                                             alignment: .topLeading)
                 let footerView = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
                                                                                                heightDimension: .fractionalHeight(0.25)),
                                                                              elementKind: UICollectionView.elementKindSectionFooter,
@@ -218,7 +230,6 @@ class FeedViewController: UIViewController {
         view.backgroundColor = .white
         feedCollectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(feedCollectionView)
-//        view.addSubview(pagenationIndicator)
         
         NSLayoutConstraint.activate([
             feedCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -233,43 +244,34 @@ class FeedViewController: UIViewController {
 }
 
 extension FeedViewController: UICollectionViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let contentsHeight = feedCollectionView.contentSize.height
+        print("컬렉션뷰컨텐츠높이:::", contentsHeight)
         let pagenagtionPoint = contentsHeight * 0.3
         let scrollViewYOffset = scrollView.contentOffset.y
-        
-        print("페이징포인트::", pagenagtionPoint)
-        print("Y::", scrollViewYOffset)
-        
+        print("y오프셋:::", scrollViewYOffset)
         if pagenagtionPoint < scrollViewYOffset {
             pagenationIndicator.startAnimating()
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                 self.pagenationIndicator.stopAnimating()
                 self.fetchPagenation()
             }
         }
     }
-    
+
     private func fetchPagenation() {
-        var snapShot = SnapShot()
-        let nextSection = UUID()
-        snapShot.appendSections([nextSection])
-        snapShot.appendItems(feeds[1].image, toSection: nextSection)
-        dataSource?.apply(snapShot, animatingDifferences: false)
+        guard currentFeedCount < 16 else {
+            pagenationIndicator.stopAnimating()
+            return
+        }
+        
+        for index in currentFeedCount...currentFeedCount + 2 {
+            let addSection = UUID()
+            self.snapshot?.appendSections([addSection])
+            self.snapshot?.appendItems(feeds[index].image.image, toSection: addSection)
+        }
+        dataSource?.apply(self.snapshot!, animatingDifferences: true)
+        currentFeedCount += 3
     }
- 
-    /*
-     var snapShot = SnapShot()
-     let firstSection = UUID()
-     let secondSection = UUID()
-     let friendSection = UUID()
-     
-     snapShot.appendSections([firstSection, secondSection, friendSection])
-     snapShot.appendItems(stories, toSection: firstSection)
-     snapShot.appendItems(feeds[0].image, toSection: secondSection)
-     snapShot.appendItems(recommends, toSection: friendSection)
-     dataSource?.apply(snapShot, animatingDifferences: false)
-     */
-    
 }

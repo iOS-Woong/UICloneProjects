@@ -14,6 +14,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
        let imageView = UIImageView()
         
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
@@ -26,6 +27,11 @@ class FeedCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        feedImageView.image = nil
     }
     
 //    func configureCell(data: Feed) {
