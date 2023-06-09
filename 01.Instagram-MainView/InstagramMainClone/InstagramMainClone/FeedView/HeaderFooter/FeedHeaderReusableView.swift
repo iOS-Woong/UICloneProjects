@@ -21,7 +21,6 @@ class FeedHeaderReusableView: UICollectionReusableView {
     let userNameLabel = {
         let label = UILabel()
         
-        label.text = "seo_hyeonung"
         label.font = UIFont.boldSystemFont(ofSize: 14.5)
         
         return label

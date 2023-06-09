@@ -10,9 +10,7 @@ import UIKit
 class StoryCollectionViewCell: UICollectionViewCell {
     private let userImageView = {
        let imageView = UserProfileImageView()
-        
-        imageView.image = UIImage(named: "testImagewoongPhoto")
-        
+                
         return imageView
     }()
     
@@ -20,7 +18,6 @@ class StoryCollectionViewCell: UICollectionViewCell {
        let label = UILabel()
         
         label.font = UIFont.systemFont(ofSize: 11.5)
-        label.text = "seo_hyeonung"
         
         return label
     }()

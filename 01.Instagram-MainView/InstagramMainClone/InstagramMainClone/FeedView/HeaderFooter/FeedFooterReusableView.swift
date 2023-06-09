@@ -65,7 +65,6 @@ class FeedFooterReusableView: UICollectionReusableView {
     private let descriptionUserNameLabel = {
         let label = UILabel()
         
-        label.text = "seo_hyeonwoong"
         label.font = UIFont.boldSystemFont(ofSize: 13.5)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
@@ -95,7 +94,6 @@ class FeedFooterReusableView: UICollectionReusableView {
     private let commentUserNameLabel = {
         let label = UILabel()
         
-        label.text = "seo_hyeonung"
         label.font = UIFont.boldSystemFont(ofSize: 13.5)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
@@ -208,6 +206,7 @@ class FeedFooterReusableView: UICollectionReusableView {
     
     func configure(data: Feed) {
         loveLabel.text = "좋아요 \(Int.random(in: 1...500))개"
+        descriptionUserNameLabel.text = data.user.name
         descriptionLabel.text = data.description
         commentCountLabel.text = "댓글 \(Int.random(in: 1...300))개 모두 보기"
         commentUserNameLabel.text = data.comments[0].user.name
@@ -275,6 +274,5 @@ class FeedFooterReusableView: UICollectionReusableView {
             bottomOfCommentHorizontalStackView.trailingAnchor.constraint(equalTo: topOfCommentVerticalStackView.trailingAnchor),
             bottomOfCommentHorizontalStackView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.15),
         ])
-    }
-    
+    }    
 }
