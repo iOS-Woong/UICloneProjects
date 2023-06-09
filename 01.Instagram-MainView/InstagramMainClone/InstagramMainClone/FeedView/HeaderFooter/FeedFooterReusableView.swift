@@ -53,7 +53,7 @@ class FeedFooterReusableView: UICollectionReusableView {
     }()
     
     // MARK: 02. 댓글상단부
-    let loveLabel = {
+    private let loveLabel = {
         let label = UILabel()
         
         label.text = "좋아요 38개"
@@ -62,7 +62,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     
-    let descriptionUserNameLabel = {
+    private let descriptionUserNameLabel = {
         let label = UILabel()
         
         label.text = "seo_hyeonwoong"
@@ -72,7 +72,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     
-    let descriptionLabel = {
+    private let descriptionLabel = {
         let label = UILabel()
         
         label.font = UIFont.systemFont(ofSize: 13.5)
@@ -82,7 +82,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     
-    let commentCountLabel = {
+    private let commentCountLabel = {
         let label = UILabel()
         
         label.text = "댓글 2개 모두 보기"
@@ -92,7 +92,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     
-    let commentUserNameLabel = {
+    private let commentUserNameLabel = {
         let label = UILabel()
         
         label.text = "seo_hyeonung"
@@ -102,7 +102,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     
-    let commentDescriptionLabel = {
+    private let commentDescriptionLabel = {
         let label = UILabel()
         
         label.text = "커멘트의 내용입니다.커멘트의 내용입니다커멘트의 내용입니다커멘트의 내용입니다커멘트의 내용입니다"
@@ -112,7 +112,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     // MARK: 03. 댓글하단부
-    let commentUserProfileImageView = {
+    private let commentUserProfileImageView = {
         let imageView = UserProfileImageView()
         
         imageView.image = UIImage(named: "testImagewoongPhoto")
@@ -204,6 +204,14 @@ class FeedFooterReusableView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(data: Feed) {
+        loveLabel.text = "좋아요 \(Int.random(in: 1...500))개"
+        descriptionLabel.text = data.description
+        commentCountLabel.text = "댓글 \(Int.random(in: 1...300))개 모두 보기"
+        commentUserNameLabel.text = data.comments[0].user.name
+        commentDescriptionLabel.text = data.comments[0].comment
     }
     
     private func setupViews() { 

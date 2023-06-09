@@ -11,9 +11,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
     
     private let friendImageView = {
        let imageView = UserProfileImageView()
-        
-        imageView.image = UIImage(named: "testImagewoongPhoto")
-        
+                
         return imageView
     }()
     
@@ -21,7 +19,6 @@ class FriendCollectionViewCell: UICollectionViewCell {
        let label = UILabel()
         
         label.font = UIFont.boldSystemFont(ofSize: 13.5)
-        label.text = "seo_hyeonung"
         
         return label
     }()
@@ -31,7 +28,6 @@ class FriendCollectionViewCell: UICollectionViewCell {
         
         label.font = UIFont.boldSystemFont(ofSize: 13.5)
         label.textColor = .systemGray2
-        label.text = "프렌드상태 텍스트 컨피규어"
         
         return label
     }()
@@ -68,6 +64,12 @@ class FriendCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         setupViewsLayer()
+    }
+    
+    func configure(data: Friend) {
+        friendImageView.image = data.user.profileImage
+        nameLabel.text = data.user.name
+        friendStateLabel.text = data.state
     }
     
     private func setupViewsLayer() {
