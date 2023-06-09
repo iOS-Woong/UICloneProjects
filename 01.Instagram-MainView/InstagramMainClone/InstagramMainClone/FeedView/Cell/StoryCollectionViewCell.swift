@@ -10,13 +10,14 @@ import UIKit
 class StoryCollectionViewCell: UICollectionViewCell {
     private let userImageView = {
        let imageView = UserProfileImageView()
-                
+        imageView.clipsToBounds = true
+        
         return imageView
     }()
     
     private let userNameLabel = {
        let label = UILabel()
-        
+        label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 11.5)
         
         return label
@@ -55,8 +56,7 @@ class StoryCollectionViewCell: UICollectionViewCell {
             
             userNameLabel.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: 3),
             userNameLabel.centerXAnchor.constraint(equalTo: userImageView.centerXAnchor),
-            userNameLabel.widthAnchor.constraint(equalTo: userImageView.widthAnchor, multiplier: 1.1)
-            
+            userNameLabel.widthAnchor.constraint(equalTo: userImageView.widthAnchor)
         ])
     }
     

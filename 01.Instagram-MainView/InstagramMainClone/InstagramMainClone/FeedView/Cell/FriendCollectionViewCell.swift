@@ -11,7 +11,9 @@ class FriendCollectionViewCell: UICollectionViewCell {
     
     private let friendImageView = {
        let imageView = UserProfileImageView()
-                
+        
+        imageView.clipsToBounds = true
+        
         return imageView
     }()
     
@@ -19,6 +21,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
        let label = UILabel()
         
         label.font = UIFont.boldSystemFont(ofSize: 13.5)
+        label.textAlignment = .center
         
         return label
     }()
@@ -28,6 +31,8 @@ class FriendCollectionViewCell: UICollectionViewCell {
         
         label.font = UIFont.boldSystemFont(ofSize: 13.5)
         label.textColor = .systemGray2
+        label.textAlignment = .center
+
         
         return label
     }()
@@ -104,7 +109,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
             
             friendStateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 15),
             friendStateLabel.centerXAnchor.constraint(equalTo: friendImageView.centerXAnchor),
-            friendStateLabel.widthAnchor.constraint(equalTo: friendImageView.widthAnchor, multiplier: 0.8),
+            friendStateLabel.widthAnchor.constraint(equalTo: friendImageView.widthAnchor),
             
             okButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -15),
             okButton.centerXAnchor.constraint(equalTo: friendImageView.centerXAnchor),

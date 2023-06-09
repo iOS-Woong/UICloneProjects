@@ -43,6 +43,7 @@ struct Comment: Hashable {
 }
 
 struct Friend: Hashable { // 2 section
+    let uuid = UUID()
     let user: User
     let state: String
 }
