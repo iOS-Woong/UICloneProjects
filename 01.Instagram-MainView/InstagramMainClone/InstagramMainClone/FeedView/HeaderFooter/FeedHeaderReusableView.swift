@@ -10,7 +10,7 @@ import UIKit
 class FeedHeaderReusableView: UICollectionReusableView {
     static let reuseIdentifier = "feedHeader"
     
-    private lazy var userProfileImageView = {
+    lazy var userProfileImageView = {
        let imageView = UserProfileImageView()
         
         imageView.image = UIImage(named: "testImagewoongPhoto")
@@ -18,7 +18,7 @@ class FeedHeaderReusableView: UICollectionReusableView {
         return imageView
     }()
     
-    private let userNameLabel = {
+    let userNameLabel = {
         let label = UILabel()
         
         label.text = "seo_hyeonung"

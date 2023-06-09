@@ -41,30 +41,51 @@ class FeedViewController: UIViewController {
     
     private func configureDataSource() {
         let storyCollectionCellRegistration = UICollectionView.CellRegistration<StoryCollectionViewCell, AnyHashable> { cell, indexPath, itemIdentifier in
-            if indexPath == IndexPath(row: 1, section: 0) {
-                // 첫번째셀 스토리 추가 string 설정
-            }
+            guard let item = itemIdentifier as? Story else { return }
+            cell.configure(data: item)
             
-//            cell.configure(data: itemIdentifier)
-                
         }
         
         let feedCollectionCellRegistration = UICollectionView.CellRegistration<FeedCollectionViewCell, AnyHashable> { cell, indexPath, itemIdentifier in
-            
-//            cell.configureCell(data: itemIdentifier)
+            guard let item = itemIdentifier as? UIImage else { return }
+            cell.feedImageView.image = item
         }
         
         let freindRecommendCollectionCellResistration = UICollectionView.CellRegistration<FriendCollectionViewCell, AnyHashable> { cell, indexPath, itemIdentifier in
-            
+
         }
                 
         let feedHeaderViewResistration = UICollectionView.SupplementaryRegistration<FeedHeaderReusableView>(
-            elementKind: UICollectionView.elementKindSectionHeader) { headerView ,elementKind, indexPath in
-                headerView.backgroundColor = .white
+            elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView ,elementKind, indexPath in
+                var index: Int
+                if indexPath.section == 1 {
+                    index = 0
+                } else {
+                    index = indexPath.section - 2
+                }
+                let user = self?.feeds[index].user
+                headerView.userProfileImageView.image = user?.profileImage
+                headerView.userNameLabel.text = user?.name
             }
         
         let feedFooterViewResistration = UICollectionView.SupplementaryRegistration<FeedFooterReusableView>(
-            elementKind: UICollectionView.elementKindSectionFooter) { footerView, elementKind, indexPath in
+            elementKind: UICollectionView.elementKindSectionFooter) { [weak self]  footerView, elementKind, indexPath in
+                var index: Int
+                if indexPath.section == 1 {
+                    index = 0
+                } else {
+                    index = indexPath.section - 2
+                }
+                let feed = self?.feeds[index]
+                
+                footerView.loveLabel.text = "좋아요 22개"
+                footerView.descriptionUserNameLabel.text = feed?.user.name
+                footerView.descriptionLabel.text = feed?.description
+                footerView.commentCountLabel.text = "댓글 \(feed?.comments.count)개 모두 보기"
+                footerView.commentUserNameLabel.text = feed?.comments[0].user.name
+                footerView.commentDescriptionLabel.text = feed?.comments[0].comment
+                footerView.commentUserProfileImageView.image = feed?.comments[0].user.profileImage
+                
             }
         
         dataSource = .init(collectionView: feedCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
@@ -74,7 +95,6 @@ class FeedViewController: UIViewController {
             switch section {
             case 0:
                 cell = collectionView.dequeueConfiguredReusableCell(using: storyCollectionCellRegistration, for: indexPath, item: itemIdentifier)
-                break
             case 2:
                 cell = collectionView.dequeueConfiguredReusableCell(using: freindRecommendCollectionCellResistration, for: indexPath, item: itemIdentifier)
             default:
@@ -104,11 +124,12 @@ class FeedViewController: UIViewController {
     
     private func configureSnapShot() {
         var snapShot = SnapShot()
-        let firstSectionUUID = UUID()
+        let firstSection = UUID()
         let secondSection = UUID()
         
-        snapShot.appendSections([firstSectionUUID])
-//        snapShot.appendItems(contents)
+        snapShot.appendSections([firstSection, secondSection])
+        snapShot.appendItems(stories, toSection: firstSection)
+        snapShot.appendItems(feeds[0].image, toSection: secondSection)
 
         dataSource?.apply(snapShot, animatingDifferences: false)
     }

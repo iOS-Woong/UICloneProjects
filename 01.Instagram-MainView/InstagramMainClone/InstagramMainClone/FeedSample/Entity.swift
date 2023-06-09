@@ -8,6 +8,7 @@
 import UIKit.UIImage
 
 struct Story: Hashable { // 0 section
+    let uuid = UUID()
     let user: User
 }
 
@@ -32,3 +33,4 @@ struct User: Hashable {
     let profileImage: UIImage?
     let name: String
 }
+

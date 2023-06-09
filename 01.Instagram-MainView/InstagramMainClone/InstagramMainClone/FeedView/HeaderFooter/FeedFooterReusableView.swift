@@ -53,7 +53,7 @@ class FeedFooterReusableView: UICollectionReusableView {
     }()
     
     // MARK: 02. 댓글상단부
-    private let loveLabel = {
+    let loveLabel = {
         let label = UILabel()
         
         label.text = "좋아요 38개"
@@ -62,7 +62,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     
-    private let descriptionUserNameLabel = {
+    let descriptionUserNameLabel = {
         let label = UILabel()
         
         label.text = "seo_hyeonwoong"
@@ -72,7 +72,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     
-    private let descriptionLabel = {
+    let descriptionLabel = {
         let label = UILabel()
         
         label.font = UIFont.systemFont(ofSize: 13.5)
@@ -82,7 +82,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     
-    private let commentCountLabel = {
+    let commentCountLabel = {
         let label = UILabel()
         
         label.text = "댓글 2개 모두 보기"
@@ -92,7 +92,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     
-    private let commentUserNameLabel = {
+    let commentUserNameLabel = {
         let label = UILabel()
         
         label.text = "seo_hyeonung"
@@ -102,7 +102,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     
-    private let commentDescriptionLabel = {
+    let commentDescriptionLabel = {
         let label = UILabel()
         
         label.text = "커멘트의 내용입니다.커멘트의 내용입니다커멘트의 내용입니다커멘트의 내용입니다커멘트의 내용입니다"
@@ -112,7 +112,7 @@ class FeedFooterReusableView: UICollectionReusableView {
         return label
     }()
     // MARK: 03. 댓글하단부
-    private let commentUserProfileImageView = {
+    let commentUserProfileImageView = {
         let imageView = UserProfileImageView()
         
         imageView.image = UIImage(named: "testImagewoongPhoto")

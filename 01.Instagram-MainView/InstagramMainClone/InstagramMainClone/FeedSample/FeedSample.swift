@@ -57,7 +57,7 @@ class FeedSample {
         [
             Feed(user: User(profileImage: UIImage(systemName: "1.lane"),
                             name: "user_one"),
-                 image: [UIImage(systemName: "1.circle"), UIImage(systemName: "1.circle")],
+                 image: [UIImage(systemName: "cloud"), UIImage(systemName: "1.circle")],
                  description: "user_one의 첫번째 피드입니다.",
                  comments: [Comment(user: User(profileImage: nil,
                                                name: "commentUser_01"),

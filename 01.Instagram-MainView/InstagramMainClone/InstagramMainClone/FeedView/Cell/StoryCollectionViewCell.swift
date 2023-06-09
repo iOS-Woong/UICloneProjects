@@ -35,10 +35,10 @@ class StoryCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    func configure(data: Contents) {
-//        userImageView.image = data.userProfile
-//        userNameLabel.text = data.userName
-//    }
+    func configure(data: Story) {
+        userImageView.image = data.user.profileImage
+        userNameLabel.text = data.user.name
+    }
     
     private func setupBorder() {
         userImageView.layer.borderWidth = 2.0

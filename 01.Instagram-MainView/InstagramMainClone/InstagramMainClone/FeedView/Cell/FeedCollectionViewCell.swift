@@ -10,7 +10,7 @@ import UIKit
 class FeedCollectionViewCell: UICollectionViewCell {
     static let reuseIdentfier = "feedCell"
     
-    private let feedImageView = {
+    let feedImageView = {
        let imageView = UIImageView()
         
         imageView.contentMode = .scaleAspectFill
@@ -28,8 +28,8 @@ class FeedCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    func configureCell(data: AnyHashable) {
-//        feedImageView.image = data.userProfile
+//    func configureCell(data: Feed) {
+//        feedImageView.image =
 //    }
     
     
