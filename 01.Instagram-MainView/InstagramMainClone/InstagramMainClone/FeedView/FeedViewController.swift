@@ -17,6 +17,21 @@ class FeedViewController: UIViewController {
     
     private let feedCollectionView = UICollectionView(frame: .zero,
                                                       collectionViewLayout: UICollectionViewLayout())
+    private lazy var pagenationIndicator = {
+        let indicator = UIActivityIndicatorView()
+        
+        indicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        indicator.center = self.view.center
+        indicator.color = .purple
+        indicator.hidesWhenStopped = true
+        indicator.style = .large
+        self.view.addSubview(indicator)
+        self.view.bringSubviewToFront(indicator)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        return indicator
+    }()
+    
     private var dataSource: DataSource?
     
     init(stories: [Story], feeds: [Feed], recommends: [Friend]) {
@@ -94,9 +109,6 @@ class FeedViewController: UIViewController {
             default:
                 cell = collectionView.dequeueConfiguredReusableCell(using: feedCollectionCellRegistration, for: indexPath, item: itemIdentifier)
             }
-            
-            
-            
             return cell
         })
         
@@ -206,14 +218,58 @@ class FeedViewController: UIViewController {
         view.backgroundColor = .white
         feedCollectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(feedCollectionView)
+//        view.addSubview(pagenationIndicator)
         
         NSLayoutConstraint.activate([
             feedCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             feedCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             feedCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            feedCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            feedCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            pagenationIndicator.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
+            pagenationIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
 }
 
-extension FeedViewController: UICollectionViewDelegate { }
+extension FeedViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentsHeight = feedCollectionView.contentSize.height
+        let pagenagtionPoint = contentsHeight * 0.3
+        let scrollViewYOffset = scrollView.contentOffset.y
+        
+        print("페이징포인트::", pagenagtionPoint)
+        print("Y::", scrollViewYOffset)
+        
+        if pagenagtionPoint < scrollViewYOffset {
+            pagenationIndicator.startAnimating()
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                self.pagenationIndicator.stopAnimating()
+                self.fetchPagenation()
+            }
+        }
+    }
+    
+    private func fetchPagenation() {
+        var snapShot = SnapShot()
+        let nextSection = UUID()
+        snapShot.appendSections([nextSection])
+        snapShot.appendItems(feeds[1].image, toSection: nextSection)
+        dataSource?.apply(snapShot, animatingDifferences: false)
+    }
+ 
+    /*
+     var snapShot = SnapShot()
+     let firstSection = UUID()
+     let secondSection = UUID()
+     let friendSection = UUID()
+     
+     snapShot.appendSections([firstSection, secondSection, friendSection])
+     snapShot.appendItems(stories, toSection: firstSection)
+     snapShot.appendItems(feeds[0].image, toSection: secondSection)
+     snapShot.appendItems(recommends, toSection: friendSection)
+     dataSource?.apply(snapShot, animatingDifferences: false)
+     */
+    
+}
