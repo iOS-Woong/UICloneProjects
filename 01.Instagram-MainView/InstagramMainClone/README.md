@@ -2,6 +2,8 @@
 
 **View**
 
+![instagram_main](https://github.com/iOS-Woong/UICloneProjects/assets/96489602/b78e2d14-e8b7-4de6-85cb-b61774025c09)
+
 
 
 
