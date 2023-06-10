@@ -10,10 +10,6 @@ import UIKit.UIImage
 struct Story: Hashable { // 0 section
     let uuid = UUID()
     let user: User
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(uuid)
-    }
 }
 
 struct Feed: Hashable { // 1 section
@@ -22,22 +18,15 @@ struct Feed: Hashable { // 1 section
     let image: Contents
     let description: String
     let comments: [Comment]
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(uuid)
-    }
 }
 
 struct Contents: Hashable {
     let uuid = UUID()
     let image: [UIImage?]
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(uuid)
-    }
 }
 
 struct Comment: Hashable {
+    let uuid = UUID()
     let user: User
     let comment: String
 }
@@ -49,6 +38,7 @@ struct Friend: Hashable { // 2 section
 }
 
 struct User: Hashable {
+    let uuid = UUID()
     let profileImage: UIImage?
     let name: String
 }
